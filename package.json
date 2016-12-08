@@ -1,10 +1,10 @@
 {
-  "name": "standardize-geolocations",
+  "name": "standardize-geolocation",
   "version": "1.0.0",
   "description": "takes geolocations of different formats and outputs a standardized version",
   "main": "index.js",
   "repository": {
-    "url": "https://github.com/blakek/standardize-geolocations.git",
+    "url": "https://github.com/blakek/standardize-geolocation.git",
     "type": "git"
   },
   "author": "Blake Knight <oss.ideas@gmail.com> (http://blakek.me/)",
