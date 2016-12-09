@@ -1,3 +1,8 @@
+function getNumberOrUndefined (value) {
+  const valueAsNumber = Number(value)
+  return isNaN(valueAsNumber) ? undefined : valueAsNumber
+}
+
 function standardizeGeolocation (point) {
   if (Array.isArray(point)) {
     if (point.length !== 2 && point.length !== 3) {
@@ -5,9 +10,9 @@ function standardizeGeolocation (point) {
     }
 
     return {
-      latitude: Number(point[0]),
-      longitude: Number(point[1]),
-      elevation: Number(point[2])
+      latitude: getNumberOrUndefined(point[0]),
+      longitude: getNumberOrUndefined(point[1]),
+      elevation: getNumberOrUndefined(point[2])
     }
   }
 
@@ -22,9 +27,9 @@ function standardizeGeolocation (point) {
   }
 
   return {
-    latitude: Number(latitude),
-    longitude: Number(longitude),
-    elevation: Number(elevation)
+    latitude: getNumberOrUndefined(latitude),
+    longitude: getNumberOrUndefined(longitude),
+    elevation: getNumberOrUndefined(elevation)
   }
 }
 
