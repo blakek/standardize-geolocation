@@ -5,6 +5,11 @@ const randomBetween = (min, max) => Math.random() * (max - min + 1) + min
 const randomElevation = () => randomBetween(-1000, 1000)
 const randomLatitude = () => randomBetween(-90, 90)
 const randomLongitude = () => randomBetween(-180, 180)
+const randomPoint = () => ({
+  latitude: randomLatitude(),
+  longitude: randomLongitude(),
+  elevation: randomElevation()
+})
 
 test('understands object with keys latitude and longitude', t => {
   const testPoint = {
@@ -130,18 +135,31 @@ test('understands valid point with elevation as "elev"', t => {
 })
 
 test('can use Array methods to work with array of valid points', t => {
-  const randomPoint = () => ({
-    lat: randomLatitude(),
-    lng: randomLongitude(),
-    alt: randomElevation()
-  })
-
   const testPoints = [randomPoint(), randomPoint(), randomPoint()]
   const actual = testPoints.map(standardizeGeolocation)
 
   actual.forEach((result, i) => {
-    t.is(result.latitude, testPoints[i].lat)
-    t.is(result.longitude, testPoints[i].lng)
-    t.is(result.elevation, testPoints[i].alt)
+    t.is(result.latitude, testPoints[i].latitude)
+    t.is(result.longitude, testPoints[i].longitude)
+    t.is(result.elevation, testPoints[i].elevation)
+  })
+})
+
+test('returns type number for valid points', t => {
+  const testPoints = [
+    randomPoint(),
+    [randomLatitude(), randomLongitude()],
+    {
+      latitude: `${randomLatitude()}`,
+      longitude: `${randomLongitude()}`,
+      elevation: `${randomElevation()}`
+    },
+    [`${randomLatitude()}`, `${randomLongitude()}`]
+  ]
+
+  testPoints.map(standardizeGeolocation).forEach(({ latitude, longitude, elevation }) => {
+    t.is(typeof latitude, 'number')
+    t.is(typeof longitude, 'number')
+    t.is(typeof elevation, 'number')
   })
 })

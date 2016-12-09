@@ -5,9 +5,9 @@ function standardizeGeolocation (point) {
     }
 
     return {
-      latitude: point[0],
-      longitude: point[1],
-      elevation: point[2]
+      latitude: Number(point[0]),
+      longitude: Number(point[1]),
+      elevation: Number(point[2])
     }
   }
 
@@ -22,9 +22,9 @@ function standardizeGeolocation (point) {
   }
 
   return {
-    latitude,
-    longitude,
-    elevation
+    latitude: Number(latitude),
+    longitude: Number(longitude),
+    elevation: Number(elevation)
   }
 }
 
