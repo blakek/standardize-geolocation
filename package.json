@@ -1,6 +1,6 @@
 {
   "name": "standardize-geolocation",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "takes geolocations of different formats and outputs a standardized version",
   "main": "index.js",
   "keywords": [
