@@ -1,4 +1,4 @@
-# standardize-geolocation
+# standardize-geolocation [![Build Status](https://travis-ci.org/blakek/standardize-geolocation.svg?branch=master)](https://travis-ci.org/blakek/standardize-geolocation)
 
 > takes geolocations of different formats and outputs a standardized version
 
