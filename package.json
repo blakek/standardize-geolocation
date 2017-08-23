@@ -3,6 +3,8 @@
   "version": "2.0.2",
   "description": "takes geolocations of different formats and outputs a standardized version",
   "main": "index.js",
+  "author": "Blake Knight <oss.ideas@gmail.com> (http://blakek.me/)",
+  "contributors": ["Blake Knight <oss.ideas@gmail.com> (http://blakek.me/)"],
   "keywords": [
     "geolocation",
     "standardize",
@@ -18,23 +20,21 @@
     "url": "https://github.com/blakek/standardize-geolocation.git",
     "type": "git"
   },
-  "author": "Blake Knight <oss.ideas@gmail.com> (http://blakek.me/)",
-  "contributors": [
-    "Blake Knight <oss.ideas@gmail.com> (http://blakek.me/)"
-  ],
   "license": "MIT",
   "engines": {
     "node": ">=4.0.0"
   },
+  "eslintConfig": {
+    "extends": "better-standard"
+  },
   "scripts": {
     "dev": "ava --watch",
-    "lint": "standard | snazzy",
-    "lint:fix": "standard --fix | snazzy",
+    "lint": "eslint .",
     "test": "npm run lint && ava"
   },
   "devDependencies": {
     "ava": "^0.22.0",
-    "snazzy": "^6.0.0",
-    "standard": "^10.0.0"
+    "eslint": "^4.5.0",
+    "eslint-config-better-standard": "^0.0.1"
   }
 }

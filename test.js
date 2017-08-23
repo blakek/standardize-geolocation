@@ -156,10 +156,12 @@ test('returns type number for valid points', t => {
     [`${randomLatitude()}`, `${randomLongitude()}`]
   ]
 
-  testPoints.map(standardizeGeolocation).forEach(({ latitude, longitude, elevation }) => {
-    t.is(typeof latitude, 'number')
-    t.is(typeof longitude, 'number')
-    t.false(Number.isNaN(elevation))
-    t.true(elevation === undefined || typeof elevation === 'number')
-  })
+  testPoints
+    .map(standardizeGeolocation)
+    .forEach(({ latitude, longitude, elevation }) => {
+      t.is(typeof latitude, 'number')
+      t.is(typeof longitude, 'number')
+      t.false(Number.isNaN(elevation))
+      t.true(elevation === undefined || typeof elevation === 'number')
+    })
 })

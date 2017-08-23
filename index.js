@@ -1,9 +1,9 @@
-function getNumberOrUndefined (value) {
+function getNumberOrUndefined(value) {
   const valueAsNumber = Number(value)
   return isNaN(valueAsNumber) ? undefined : valueAsNumber
 }
 
-function standardizeGeolocation (point) {
+function standardizeGeolocation(point) {
   if (Array.isArray(point)) {
     if (point.length !== 2 && point.length !== 3) {
       throw new Error('point array not correctly formatted')
