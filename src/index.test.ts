@@ -166,3 +166,25 @@ test('returns type number for valid points', t => {
       t.true(elevation === undefined || typeof elevation === 'number');
     });
 });
+
+test('handles points outside a valid range', t => {
+  t.throws(() => standardizeGeolocation({ lat: -91, lon: 0 }), {
+    instanceOf: RangeError,
+    message: /latitude/
+  });
+
+  t.throws(() => standardizeGeolocation({ lat: 91, lon: 0 }), {
+    instanceOf: RangeError,
+    message: /latitude/
+  });
+
+  t.throws(() => standardizeGeolocation({ lat: 0, lon: -181 }), {
+    instanceOf: RangeError,
+    message: /longitude/
+  });
+
+  t.throws(() => standardizeGeolocation({ lat: 0, lon: 181 }), {
+    instanceOf: RangeError,
+    message: /longitude/
+  });
+});
