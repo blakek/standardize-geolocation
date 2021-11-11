@@ -6,9 +6,9 @@ There are several ways of representing geolocations:
 
 - latitude and longitude
 - latitude, longitude, and elevation
-- lat, lng
-- `longitude`, `lon`, `long`, `lng`
-- ...and more (as well as awkward combinations of these already listed)
+- `longitude` vs. `lon` vs. `long` vs. `lng`
+- [GeoJSON](https://tools.ietf.org/html/rfc7946)
+- ...and more
 
 This module just takes in a geolocation and tries to parse it to a standardized
 format everyone can use and rely on: an object with keys of `latitude`, `longitude`,
@@ -62,7 +62,9 @@ const locations = points.map(standardizeGeolocation);
 ### `standardizeGeolocation`
 
 ```ts
-function standardizeGeolocation(point: any): BKGeolocation;
+function standardizeGeolocation(
+  point: GeolocationInput
+): StandardizedGeolocation;
 ```
 
 Attempts to create an object in this format from any known format:
@@ -74,6 +76,46 @@ Attempts to create an object in this format from any known format:
   longitude: number;
 }
 ```
+
+Here's a (non-exhaustive) list of formats this will standardize:
+
+**Arrays:**
+
+- `[latitude, longitude]`
+- `[latitude, longitude, elevation]`
+
+If an array is detected to be in a GeoJSON object, latitude and longitude will be reversed:
+
+`{ coordinates: [longitude, latitude]; }`
+
+**Objects:**
+
+Latitude keys:
+
+- `lat`
+- `latitude`
+
+Longitude keys:
+
+- `lng`
+- `lon`
+- `long`
+- `longitude`
+
+Elevation keys:
+
+- `alt`
+- `altitude`
+- `elev`
+- `elevation`
+
+**Nested objects:**
+
+If the passed object has one of these properties at the top level, it will attempt to convert it to a geolocation:
+
+- `geometry`
+- `location`
+- `position`
 
 ## Contributing
 
@@ -96,10 +138,12 @@ yarn
 
 ## See Also
 
-- [`manuelbieh/Geolib`](https://github.com/manuelbieh/Geolib) - easily do stuff with a list of geolocations (e.g. find nearest, get within radius, etc.)
 - [`blakek/geo2zip`](https://github.com/blakek/geo2zip) - translates latitude / longitude geolocations to the nearest corresponding U.S. zip code
 - [`blakek/us-zips`](https://github.com/blakek/us-zips) - a list of US ZIP codes and their geolocations
 
 ## License
 
 MIT
+
+[node.js]: https://nodejs.org/
+[yarn]: https://yarnpkg.com/

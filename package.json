@@ -1,6 +1,6 @@
 {
   "name": "standardize-geolocation",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "takes geolocations of different formats and outputs a standardized version",
   "main": "dist/standardize-geolocation.cjs.js",
   "module": "dist/standardize-geolocation.esm.js",
