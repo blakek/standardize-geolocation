@@ -2,7 +2,8 @@ import test from 'ava';
 import { standardizeGeolocation } from '.';
 
 const randomBetween = (min: number, max: number) =>
-  Math.random() * (max - min + 1) + min;
+  Math.random() * (max - min) + min;
+
 const randomElevation = () => randomBetween(-1000, 1000);
 const randomLatitude = () => randomBetween(-90, 90);
 const randomLongitude = () => randomBetween(-180, 180);
@@ -154,7 +155,7 @@ test('returns type number for valid points', t => {
       latitude: `${randomLatitude()}`,
       longitude: `${randomLongitude()}`
     },
-    [`${randomLatitude()}`, `${randomLongitude()}`]
+    [`${randomLatitude()}`, `${randomLongitude()}`] as const
   ];
 
   testPoints
@@ -187,4 +188,62 @@ test('handles points outside a valid range', t => {
     instanceOf: RangeError,
     message: /longitude/
   });
+});
+
+test('throws correct error if missing latitude or longitude', t => {
+  // missing longitude
+  // @ts-expect-error: testing missing property
+  t.throws(() => standardizeGeolocation({ lat: 0 }), {
+    instanceOf: TypeError,
+    message: /longitude` is required/
+  });
+
+  // missing latitude
+  // @ts-expect-error: testing missing property
+  t.throws(() => standardizeGeolocation({ lon: 0 }), {
+    instanceOf: TypeError,
+    message: /latitude` is required/
+  });
+});
+
+test('works with GeoJSON points', t => {
+  const testPoint = {
+    geometry: {
+      type: 'Point',
+      coordinates: [randomLongitude(), randomLatitude()]
+    }
+  };
+
+  const actual = standardizeGeolocation(testPoint);
+
+  t.is(actual.latitude, testPoint.geometry.coordinates[1]);
+  t.is(actual.longitude, testPoint.geometry.coordinates[0]);
+});
+
+test('works with objects with a `location` prop', t => {
+  const testPoint = {
+    location: {
+      lat: randomLatitude(),
+      lon: randomLongitude()
+    }
+  };
+
+  const actual = standardizeGeolocation(testPoint);
+
+  t.is(actual.latitude, testPoint.location.lat);
+  t.is(actual.longitude, testPoint.location.lon);
+});
+
+test('works with objects with a `position` prop', t => {
+  const testPoint = {
+    position: {
+      lat: randomLatitude(),
+      lon: randomLongitude()
+    }
+  };
+
+  const actual = standardizeGeolocation(testPoint);
+
+  t.is(actual.latitude, testPoint.position.lat);
+  t.is(actual.longitude, testPoint.position.lon);
 });
