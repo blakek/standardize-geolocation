@@ -7,10 +7,8 @@ export interface StandardizedGeolocation {
 export type PointInput = string | number;
 
 export interface GeoJSONPoint {
-  geometry: {
-    coordinates: PointInput[];
-    type: string;
-  };
+  coordinates: PointInput[];
+  type: string;
 }
 
 export type WithElevation =
@@ -32,7 +30,8 @@ export type GeolocationInput =
   | (Partial<WithElevation> & WithLatitude & WithLongitude)
   | { location: GeolocationInput }
   | { position: GeolocationInput }
-  | GeoJSONPoint;
+  | GeoJSONPoint
+  | { geometry: GeoJSONPoint };
 
 export function createPoint(
   rawLatitude: PointInput,
@@ -97,11 +96,7 @@ export function getLongitude(point: WithLongitude): PointInput {
 }
 
 function isGeoJSONPoint(point: GeolocationInput): point is GeoJSONPoint {
-  return (
-    'geometry' in point &&
-    'coordinates' in point.geometry &&
-    point.geometry.type === 'Point'
-  );
+  return 'coordinates' in point && point.type === 'Point';
 }
 
 // HACK: This is a workaround for TypeScript not properly narrowing readonly arrays
@@ -130,10 +125,11 @@ export function standardizeGeolocation(
 
   if (isGeoJSONPoint(point)) {
     // GeoJSON points are in [longitude, latitude] order
-    return createPoint(
-      point.geometry.coordinates[1],
-      point.geometry.coordinates[0]
-    );
+    return createPoint(point.coordinates[1], point.coordinates[0]);
+  }
+
+  if ('geometry' in point) {
+    return standardizeGeolocation(point.geometry);
   }
 
   if ('location' in point) {
