@@ -2,10 +2,11 @@ import test from 'ava';
 import { standardizeGeolocation } from '.';
 
 const randomBetween = (min: number, max: number) =>
-  Math.random() * (max - min + 1) + min;
+  Math.random() * (max - min) + min;
+
 const randomElevation = () => randomBetween(-1000, 1000);
-const randomLatitude = () => randomBetween(-89.99, 89.99);
-const randomLongitude = () => randomBetween(-179.99, 179.99);
+const randomLatitude = () => randomBetween(-90, 90);
+const randomLongitude = () => randomBetween(-180, 180);
 const randomPoint = () => ({
   latitude: randomLatitude(),
   longitude: randomLongitude(),
